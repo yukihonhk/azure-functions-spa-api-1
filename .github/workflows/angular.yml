@@ -31,10 +31,9 @@ jobs:
           node-version: ${{ matrix.node-version }}
         
       - name: npm install and npm run build
-        working-directory: $GITHUB_WORKSPACE/angular-app
         run: |
-          npm i
-          npm run build:prod
+          cd $GITHUB_WORKSPACE/angular-app
+          ng build --prod
           
       - name: Login to Azure
         uses: azure/login@v1
@@ -45,5 +44,5 @@ jobs:
         uses: Azure/cli@v1.0.0
         with:
           # Specify the script here
-          inlineScript: az storage blob upload-batch -s $GITHUB_WORKSPACE/dist/angular-app -d '$web' --account-name env.STORAGE_ACCOUNT
+          inlineScript: az storage blob upload-batch -s $GITHUB_WORKSPACE/angular-app/dist/angular-app -d '$web' --account-name env.STORAGE_ACCOUNT
           
