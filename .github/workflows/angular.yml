@@ -1,0 +1,50 @@
+name: Angular CI/CD
+on:
+  workflow_run:
+    workflows: ["Node.js CI/CD"]
+    branches: [master]
+    types:
+      - completed
+env:
+  STORAGE_ACCOUNT: wviriyatododevapp
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v1
+      
+      - working-directory: angular-app
+        
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+            
+      - name: Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+        
+      - name: npm install and npm run build
+        run: |
+          npm i
+          npm run build:prod
+      
+      - uses: azure/login@v1
+        if: steps.parser.outputs.approved
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
+      - name: Azure CLI - Publish Static Website
+        uses: Azure/cli@v1.0.0
+        with:
+          # Specify the script here
+          inlineScript: az storage blob upload-batch -s $GITHUB_WORKSPACE/dist/angular-app -d '$web' --account-name env.STORAGE_ACCOUNT
+          
