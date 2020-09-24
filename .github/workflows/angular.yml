@@ -36,9 +36,9 @@ jobs:
         run: |
           npm i
           npm run build:prod
-      
-      - uses: azure/login@v1
-        if: steps.parser.outputs.approved
+          
+      - name: Login to Azure
+        uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           
