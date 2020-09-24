@@ -16,9 +16,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      
-      - working-directory: angular-app
-        
+                
       - name: Cache node modules
         uses: actions/cache@v1
         with:
@@ -33,6 +31,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
         
       - name: npm install and npm run build
+        working-directory: $GITHUB_WORKSPACE/angular-app
         run: |
           npm i
           npm run build:prod
