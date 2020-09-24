@@ -32,8 +32,9 @@ jobs:
         
       - name: npm install and npm run build
         run: |
-          npm install -g @angular/cli
           cd $GITHUB_WORKSPACE/angular-app
+          npm install --save-dev @angular-devkit/build-angular
+          npm install -g @angular/cli
           ng build --prod
           
       - name: Login to Azure
