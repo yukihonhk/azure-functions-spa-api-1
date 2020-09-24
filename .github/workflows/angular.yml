@@ -32,6 +32,7 @@ jobs:
         
       - name: npm install and npm run build
         run: |
+          npm install -g @angular/cli
           cd $GITHUB_WORKSPACE/angular-app
           ng build --prod
           
