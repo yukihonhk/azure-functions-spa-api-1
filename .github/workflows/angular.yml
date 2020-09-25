@@ -31,11 +31,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           
-      - uses: cschleiden/replace-tokens@v1
+      - uses: vafinvr/template-env-action@master
         with:
-          tokenPrefix: '__'
-          tokenSuffix: '__'
-          files: $GITHUB_WORKSPACE/angular-app/src/environments/environment.prod.ts
+          filename: $GITHUB_WORKSPACE/angular-app/src/environments/environment.prod.ts
         
       - name: npm install and npm run build
         run: |

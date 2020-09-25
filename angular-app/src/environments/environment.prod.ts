@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  API: '__API__',
+  API: '${API}',
 };
