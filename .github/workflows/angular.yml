@@ -6,6 +6,7 @@ on:
     types:
       - completed
 env:
+  API: wviriya-todo-dev
   STORAGE_ACCOUNT: wviriyatododevapp
 jobs:
   build:
@@ -29,6 +30,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+          
+      - uses: cschleiden/replace-tokens@v1
+        with:
+          tokenPrefix: '__'
+          tokenSuffix: '__'
+          files: $GITHUB_WORKSPACE/angular-app/src/environments/*.ts
         
       - name: npm install and npm run build
         run: |
@@ -46,5 +53,4 @@ jobs:
         uses: Azure/cli@v1.0.0
         with:
           # Specify the script here
-          inlineScript: az storage blob upload-batch -s $GITHUB_WORKSPACE/angular-app/dist/angular-app -d '$web' --account-name ${{ env.STORAGE_ACCOUNT }}
-          
+          inlineScript: az storage blob upload-batch -s $GITHUB_WORKSPACE/angular-app/dist/angular-app -d '$web' --account-name ${{ env.STORAGE_ACCOUNT }}  
