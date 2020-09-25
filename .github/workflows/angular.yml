@@ -5,9 +5,6 @@ on:
     branches: [master]
     types:
       - completed
-env:
-  API: wviriya-todo-dev
-  STORAGE_ACCOUNT: wviriyatododevapp
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -35,7 +32,7 @@ jobs:
         uses: jacobtomlinson/gha-find-replace@master
         with:
           find: "${API}"
-          replace: ${{ env.API }}
+          replace: ${{ secrets.API }}
           include: "environment.prod.ts" # Will match all README.md files in any nested directory
         
       - name: npm install and npm run build
@@ -54,4 +51,4 @@ jobs:
         uses: Azure/cli@v1.0.0
         with:
           # Specify the script here
-          inlineScript: az storage blob upload-batch -s $GITHUB_WORKSPACE/angular-app/dist/angular-app -d '$web' --account-name ${{ env.STORAGE_ACCOUNT }}  
+          inlineScript: az storage blob upload-batch -s $GITHUB_WORKSPACE/angular-app/dist/angular-app -d '$web' --account-name ${{ secrets.STORAGE_ACCOUNT }}  
