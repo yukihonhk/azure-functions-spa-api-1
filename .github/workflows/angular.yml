@@ -35,7 +35,7 @@ jobs:
         with:
           tokenPrefix: '__'
           tokenSuffix: '__'
-          files: $GITHUB_WORKSPACE/angular-app/src/environments/*.ts
+          files: $GITHUB_WORKSPACE/angular-app/src/environments/environment.prod.ts
         
       - name: npm install and npm run build
         run: |
