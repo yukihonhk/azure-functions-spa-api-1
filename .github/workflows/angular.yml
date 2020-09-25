@@ -16,7 +16,7 @@ jobs:
         node-version: [14.x]
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
                 
       - name: Cache node modules
         uses: actions/cache@v1
@@ -31,9 +31,12 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           
-      - uses: vafinvr/template-env-action@master
+      - name: Find and Replace
+        uses: jacobtomlinson/gha-find-replace@master
         with:
-          filename: ${{ github.workspace }}/angular-app/src/environments/environment.prod.ts
+          find: "${API}"
+          replace: ${{ env.API }}
+          include: "environment.prod.ts" # Will match all README.md files in any nested directory
         
       - name: npm install and npm run build
         run: |
