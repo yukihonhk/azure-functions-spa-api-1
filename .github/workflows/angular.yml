@@ -31,7 +31,7 @@ jobs:
       - name: Find and Replace
         uses: jacobtomlinson/gha-find-replace@master
         with:
-          find: "${API}"
+          find: "__API__"
           replace: ${{ secrets.API }}
           include: "environment.prod.ts" # Will match all README.md files in any nested directory
         
