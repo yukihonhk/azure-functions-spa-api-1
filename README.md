@@ -38,7 +38,7 @@ The apps written in the following JavaScript frameworks/libraries:
 
 ### Azure Storage Account Static Web
 
-- Learn how to [Host an Angular, React, Svelte, or Vue JavaScript static website in Azure Storage](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-static-website-how-to?tabs=azure-portal
+- Learn how to [Host an Angular, React, Svelte, or Vue JavaScript static website in Azure Storage](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-static-website-how-to?tabs=azure-portal)
 
 ### Azure Functions
 
