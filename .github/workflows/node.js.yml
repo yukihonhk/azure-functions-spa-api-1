@@ -1,7 +1,9 @@
 name: Node.js CI/CD
 
-on:
-  [push]
+on: 
+  pull_request:
+    types: [labeled]
+    branches: [master]  
 
 # CONFIGURATION
 # For help, go to https://github.com/Azure/Actions
@@ -11,9 +13,9 @@ on:
 #
 # 2. Change these variables for your configuration:
 env:
-  AZURE_FUNCTIONAPP_NAME: wviriya-todo-dev   # set this to your application's name
+  AZURE_FUNCTIONAPP_NAME: wviriya-todo-prod   # set this to your application's name
   AZURE_FUNCTIONAPP_PACKAGE_PATH: 'api'      # set this to the path to your web app project, defaults to the repository root
-  NODE_VERSION: '12.x'                     # set this to the node version to use (supports 8.x, 10.x, 12.x)
+  NODE_VERSION: '14.x'                     # set this to the node version to use (supports 8.x, 10.x, 12.x)
 
 jobs:
   build-and-deploy:
@@ -34,7 +36,8 @@ jobs:
         npm install
         npm run build --if-present
         npm run test --if-present
-        popd
+        popd        
+
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
       id: fa
