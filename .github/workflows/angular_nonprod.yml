@@ -1,11 +1,11 @@
-name: Angular CI/CD
+name: Angular CI/CD Non-prod
 on:
   workflow_run:
-    workflows: ["Node.js CI/CD"]
+    workflows: ["Node.js CI/CD Non-prod"]
     types: [completed]
 env:
-  STORAGE_ACCOUNT: gh2doprodapp
-  API: https://gh2do-prod.azurewebsites.net/api
+  STORAGE_ACCOUNT: gh2dodevapp
+  API: https://gh2do-dev.azurewebsites.net/api
 jobs:
   build:
     runs-on: ubuntu-latest
