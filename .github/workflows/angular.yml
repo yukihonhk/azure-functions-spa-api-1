@@ -2,8 +2,7 @@ name: Angular CI/CD
 on:
   workflow_run:
     workflows: ["Node.js CI/CD"]
-    types:
-      - completed
+    types: [completed]
 env:
   STORAGE_ACCOUNT: gh2dodevapp
   API: https://gh2do-dev.azurewebsites.net/api
