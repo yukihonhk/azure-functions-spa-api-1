@@ -4,8 +4,8 @@ on:
     workflows: ["Node.js CI/CD"]
     types: [completed]
 env:
-  STORAGE_ACCOUNT: gh2dodevapp
-  API: https://gh2do-dev.azurewebsites.net/api
+  STORAGE_ACCOUNT: ${{ secrets.APP_NAME }}${{ secrets.ENVIRONMENT }}app
+  API: https://${{ secrets.APP_NAME })-${{ secrets.ENVIRONMENT }}.azurewebsites.net/api
 jobs:
   build:
     runs-on: ubuntu-latest
