@@ -3,6 +3,10 @@ on:
   workflow_run:
     workflows: ["Node.js CI/CD"]
     types: [completed]
+env:
+  STORAGE_ACCOUNT: ${{ secrets.APP_NAME }}${{ secrets.ENVIRONMENT }}app
+  API: https://${{ secrets.APP_NAME })-${{ secrets.ENVIRONMENT }}.azurewebsites.net/api
+
 jobs:
   build:
     runs-on: ubuntu-latest
