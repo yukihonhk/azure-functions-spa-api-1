@@ -1,0 +1,102 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js Production Release
+
+on:
+  push:
+    branches: [ master ]
+env:
+  AZURE_FUNCTIONAPP_NAME: ${{ secrets.APP_NAME }}-prod
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'api'      # set this to the path to your web app project, defaults to the repository root
+  STORAGE_ACCOUNT: ${{ secrets.APP_NAME }}prodapp
+  API: https://${{ secrets.APP_NAME }}-prod.azurewebsites.net/api
+  
+jobs:
+  release api:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Cache node modules
+      uses: actions/cache@v1
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+    - run: npm run build --if-present
+    - run: npm test
+      
+    - name: 'Run Azure Functions Action'
+      uses: Azure/functions-action@v1
+      id: fa
+      with:
+        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+        package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE_PROD }}
+        
+  release spa:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Cache node modules
+      uses: actions/cache@v1
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+          
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+        
+    - name: Find and Replace
+      uses: jacobtomlinson/gha-find-replace@master
+      with:
+        find: "__API__"
+        replace: ${{ env.API }}
+        include: "environment.prod.ts" # Will match all README.md files in any nested directory
+        
+    - name: npm install and npm run build
+      run: |
+        cd $GITHUB_WORKSPACE/angular-app
+        npm install --save-dev @angular-devkit/build-angular
+        npm install -g @angular/cli
+        ng build --prod
+
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Azure CLI - Publish Static Website
+      uses: Azure/cli@v1.0.0
+      with:
+        # Specify the script here
+        inlineScript: az storage blob upload-batch -s $GITHUB_WORKSPACE/angular-app/dist/angular-app -d '$web' --account-name ${{ env.STORAGE_ACCOUNT }}  
+
+  
+    
+    
