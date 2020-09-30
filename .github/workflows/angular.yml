@@ -5,7 +5,7 @@ on:
     types: [completed]
 env:
   STORAGE_ACCOUNT: ${{ secrets.APP_NAME }}${{ secrets.ENVIRONMENT }}app
-  API: https://${{ secrets.APP_NAME })-${{ secrets.ENVIRONMENT }}.azurewebsites.net/api
+  API: https://${{ secrets.APP_NAME }}-${{ secrets.ENVIRONMENT }}.azurewebsites.net/api
 
 jobs:
   build:
