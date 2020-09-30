@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "http://localhost:7071",
+    "target": "https://azninja-fn.azurewebsites.net",
     "secure": false
   }
 }
