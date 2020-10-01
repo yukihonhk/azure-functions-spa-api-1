@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  API: 'https://azninja-fn.azurewebsites.net/api'
+  API: '__API__'
 };
 
 /*
