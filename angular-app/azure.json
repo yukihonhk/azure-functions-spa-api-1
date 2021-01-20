@@ -8,9 +8,9 @@
         "path": "dist/angular-app"
       },
       "azureHosting": {
-        "subscription": "c1a37f4e-c839-41b3-a627-5ea61b973cd1",
-        "resourceGroupName": "demo-rg",
-        "account": "azninjastaticweb"
+        "subscription": "40bf2661-eddd-4e15-affe-5c142ff3c1b5",
+        "resourceGroupName": "demo-azure",
+        "account": "demo-user"
       }
     }
   ]
