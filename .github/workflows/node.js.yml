@@ -2,7 +2,7 @@ name: Node.js CI/CD
 
 on: 
   pull_request_target:
-    branches: master
+    branches: development
 env:
   AZURE_FUNCTIONAPP_NAME: ${{ secrets.APP_NAME }}-${{ secrets.ENVIRONMENT }}
   AZURE_FUNCTIONAPP_PACKAGE_PATH: 'api'      # set this to the path to your web app project, defaults to the repository root
@@ -13,7 +13,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: 'Checkout GitHub Action'
-      uses: actions/checkout@master
+      uses: actions/checkout@development
 
     - name: Setup Node ${{ env.NODE_VERSION }} Environment
       uses: actions/setup-node@v1
