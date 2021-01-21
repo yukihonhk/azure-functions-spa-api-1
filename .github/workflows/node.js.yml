@@ -13,7 +13,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: 'Checkout GitHub Action'
-      uses: actions/checkout@development
+      uses: actions/checkout@master
 
     - name: Setup Node ${{ env.NODE_VERSION }} Environment
       uses: actions/setup-node@v1
